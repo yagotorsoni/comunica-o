@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MUV — Kit de Comunicação</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black:      #0D1117;
+  --surface:    #161B22;
+  --surface-2:  #1E2630;
+  --surface-3:  #252D38;
+  --orange:     #FF5F1F;
+  --white:      #F0EDEB;
+  --white-60:   rgba(240,237,235,0.6);
+  --white-30:   rgba(240,237,235,0.3);
+  --white-10:   rgba(240,237,235,0.08);
+  --gray:       #6B7280;
+  --border:     rgba(240,237,235,0.08);
+}
+body {
+  font-family: 'Inter', sans-serif;
+  background: #070A0E;
+  color: var(--white);
+}
+.page-header {
+  padding: 64px 72px 48px;
+  border-bottom: 1px solid var(--border);
+}
+.page-header .eyebrow { font-size:10px; letter-spacing:0.35em; text-transform:uppercase; color:var(--orange); margin-bottom:16px; }
+.page-header h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,6vw,72px); letter-spacing:0.03em; margin-bottom:12px; }
+.page-header p { font-size:15px; font-weight:300; color:var(--white-60); max-width:560px; line-height:1.75; }
+.divider { border:none; border-top:1px solid var(--border); }
+.section { padding:72px 72px; }
+.section-label { font-size:10px; letter-spacing:0.35em; text-transform:uppercase; color:var(--gray); margin-bottom:48px; display:flex; align-items:center; gap:12px; }
+.section-label::before { content:''; display:inline-block; width:24px; height:1px; background:var(--orange); }
+.grid-row { display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; }
+.piece-label { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gray); margin-bottom:12px; text-align:center; }
+
+/* ══ FEED POST 1:1 ══════════════════════════════ */
+.feed-post {
+  width: 360px;
+  height: 360px;
+  position: relative;
+  overflow: hidden;
+  background: var(--black);
+  flex-shrink: 0;
+}
+
+/* Post 1: Achievement */
+.post-achievement {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 32px;
+  height: 100%;
+  background: var(--black);
+  position: relative;
+}
+
+.post-achievement::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255,95,31,0.18) 0%, transparent 65%);
+}
+
+.post-achievement::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.pa-content { position: relative; z-index: 2; }
+
+.pa-badge {
+  width: 64px; height: 64px;
+  background: var(--surface-2);
+  border: 2px solid var(--orange);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+}
+
+.pa-badge-diamond {
+  width: 28px; height: 28px;
+  background: var(--orange);
+  transform: rotate(45deg);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.pa-badge-letter {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px; color: var(--white);
+  transform: rotate(-45deg);
+}
+
+.pa-eyebrow {
+  font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 8px;
+}
+
+.pa-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 44px; letter-spacing: 0.03em;
+  color: var(--white); line-height: 1;
+  margin-bottom: 6px;
+}
+
+.pa-desc {
+  font-size: 11px; font-weight: 300;
+  color: var(--white-60); line-height: 1.5;
+}
+
+.pa-footer { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; }
+
+.pa-stat {
+  display: flex; align-items: center; gap: 10px;
+}
+
+.pa-stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 40px; color: var(--orange); line-height: 1;
+}
+
+.pa-stat-info { font-size: 10px; color: var(--white-60); }
+
+.pa-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px; letter-spacing: 0.2em;
+  color: var(--white-30);
+}
+
+/* Post 2: Stats */
+.post-stats {
+  height: 100%;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 32px;
+}
+
+.post-stats::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 180px;
+  background: linear-gradient(to top, rgba(255,95,31,0.06), transparent);
+}
+
+.ps-header { position: relative; z-index: 2; }
+.ps-eyebrow { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gray); margin-bottom: 8px; }
+.ps-title { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--white); letter-spacing: 0.03em; }
+
+.ps-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.ps-stat-box {
+  background: var(--surface-2);
+  padding: 16px;
+  border-left: 2px solid var(--border);
+}
+.ps-stat-box.accent-border { border-left-color: var(--orange); }
+
+.ps-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--white); line-height: 1; margin-bottom: 2px; }
+.ps-stat-num.orange { color: var(--orange); }
+.ps-stat-label { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); }
+
+.ps-footer { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; }
+.ps-date { font-size: 9px; color: var(--gray); }
+.ps-logo { font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 0.2em; color: var(--white-30); }
+
+/* Post 3: Duelo / Challenge */
+.post-challenge {
+  height: 100%;
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+}
+
+.post-challenge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(255,95,31,0.08) 100%);
+}
+
+.pc-header { position: relative; z-index: 2; margin-bottom: 16px; }
+.pc-eyebrow { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+.pc-title { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--white); letter-spacing: 0.03em; line-height: 1; }
+
+.pc-players {
+  flex: 1;
+  position: relative; z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.pc-player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+  padding: 12px 16px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.pc-player.challenger { border-color: rgba(255,95,31,0.3); }
+
+.pc-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--gray);
+  flex-shrink: 0;
+}
+
+.pc-avatar.orange { border: 1.5px solid var(--orange); color: var(--orange); }
+
+.pc-player-info { flex: 1; }
+.pc-player-name { font-size: 12px; font-weight: 600; color: var(--white); }
+.pc-player-rank { font-size: 9px; color: var(--gray); letter-spacing: 0.1em; }
+
+.pc-player-pts { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--gray); }
+.pc-player-pts.orange { color: var(--orange); }
+
+.pc-vs {
+  position: relative; z-index: 2;
+  text-align: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: var(--gray);
+  padding: 4px 0;
+}
+
+.pc-footer { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+.pc-arena { font-size: 9px; color: var(--gray); }
+.pc-logo { font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 0.2em; color: var(--white-30); }
+
+/* ══ STORY 9:16 ══════════════════════════════════ */
+.story {
+  width: 200px;
+  height: 356px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.story-achievement {
+  background: var(--black);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 28px;
+  position: relative;
+}
+
+.story-achievement::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255,95,31,0.2) 0%, transparent 65%);
+}
+
+.story-status-bar {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.story-bar {
+  flex: 1;
+  height: 2px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 99px;
+}
+
+.story-bar.filled { background: var(--white); }
+.story-bar.active { background: linear-gradient(90deg, var(--white) 60%, rgba(255,255,255,0.2) 60%); }
+
+.story-account {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 2;
+}
+
+.story-acc-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--orange);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.story-acc-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 9px; letter-spacing: 0.1em; color: var(--white);
+}
+
+.story-acc-name { font-size: 10px; font-weight: 600; color: var(--white); }
+.story-acc-time { font-size: 8px; color: var(--white-60); }
+
+.story-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.story-badge {
+  width: 70px; height: 70px;
+  border: 2px solid var(--orange);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+  background: var(--surface-2);
+}
+
+.story-badge-inner {
+  width: 30px; height: 30px;
+  background: var(--orange);
+  transform: rotate(45deg);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.story-badge-letter {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px; color: var(--white);
+  transform: rotate(-45deg);
+}
+
+.story-eyebrow { font-size: 8px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
+.story-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--white); text-align: center; letter-spacing: 0.03em; line-height: 1; margin-bottom: 8px; }
+.story-desc { font-size: 10px; color: var(--white-60); text-align: center; line-height: 1.5; margin-bottom: 16px; }
+
+.story-stat {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: var(--surface);
+  padding: 10px 16px;
+  border-radius: 4px;
+}
+
+.story-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--orange); line-height: 1; }
+.story-stat-info { font-size: 9px; color: var(--white-60); }
+
+.story-footer { position: relative; z-index: 2; text-align: center; }
+.story-logo { font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 0.2em; color: var(--white-30); }
+.story-swipe { font-size: 8px; color: var(--white-30); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+
+/* Story 2: Ranking */
+.story-ranking {
+  background: var(--surface);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.story-ranking::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 200px;
+  background: linear-gradient(to top, rgba(255,95,31,0.06), transparent);
+}
+
+/* ══ CARD DE NOTIFICAÇÃO ══════════════════════════ */
+.notification-card {
+  width: 360px;
+  background: var(--surface);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.notif-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.notif-app-icon {
+  width: 32px; height: 32px;
+  background: var(--orange);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.notif-app-name {
+  font-size: 11px; font-weight: 700; color: var(--white);
+}
+
+.notif-time { font-size: 10px; color: var(--gray); margin-left: auto; }
+
+.notif-body { padding: 14px 16px 16px; }
+.notif-title { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+.notif-text { font-size: 12px; font-weight: 300; color: var(--white-60); line-height: 1.5; }
+
+.notif-action {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 16px;
+}
+
+.notif-btn {
+  flex: 1;
+  padding: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.notif-btn-primary { background: var(--orange); color: var(--white); }
+.notif-btn-secondary { background: var(--surface-2); color: var(--white-60); }
+
+/* ══ BANNER ARENAS ══════════════════════════════ */
+.arena-banner {
+  width: 100%;
+  max-width: 760px;
+  height: 180px;
+  background: var(--black);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  border: 1px solid var(--border);
+}
+
+.arena-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(var(--white-10) 1px, transparent 1px), linear-gradient(90deg, var(--white-10) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.arena-banner::after {
+  content: '';
+  position: absolute;
+  right: -60px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(255,95,31,0.15) 0%, transparent 65%);
+}
+
+.ab-content { position: relative; z-index: 2; }
+.ab-eyebrow { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+.ab-title { font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: var(--white); letter-spacing: 0.04em; line-height: 1; }
+.ab-sub { font-size: 12px; color: var(--white-60); margin-top: 6px; }
+
+.ab-cta {
+  position: relative; z-index: 2;
+  margin-left: auto;
+  background: var(--orange);
+  color: var(--white);
+  padding: 12px 24px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ab-logo {
+  position: absolute;
+  bottom: 16px;
+  right: 20px;
+  z-index: 3;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--white-30);
+}
+
+/* ══ CAPTION GUIDE ══════════════════════════════ */
+.caption-guide {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  max-width: 760px;
+}
+
+.caption-card {
+  background: var(--surface);
+  padding: 32px 28px;
+}
+
+.caption-type { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; }
+.caption-text {
+  font-size: 13px; font-weight: 300; line-height: 1.7; color: var(--white-60);
+  padding: 16px; background: var(--surface-2); border-radius: 4px;
+  border-left: 2px solid var(--orange);
+}
+
+.caption-hashtags {
+  margin-top: 10px;
+  font-size: 11px; color: var(--gray); line-height: 1.6;
+}
+
+/* ══ EMAIL SECTION ══════════════════════════════ */
+.email-mockup {
+  max-width: 520px;
+  background: var(--surface);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.email-header {
+  background: var(--black);
+  padding: 32px 40px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.email-header::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 200px;
+  background: radial-gradient(ellipse, rgba(255,95,31,0.12), transparent 70%);
+}
+
+.email-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px; letter-spacing: 0.15em;
+  color: var(--white); position: relative; z-index: 1;
+}
+
+.email-logo span { color: var(--orange); }
+
+.email-tagline-em {
+  font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--orange); position: relative; z-index: 1; margin-top: 4px;
+}
+
+.email-body { padding: 36px 40px; }
+.email-eyebrow { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gray); margin-bottom: 12px; }
+.email-title { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--white); letter-spacing: 0.03em; margin-bottom: 12px; line-height: 1; }
+.email-text { font-size: 13px; font-weight: 300; color: var(--white-60); line-height: 1.75; margin-bottom: 24px; }
+
+.email-stat-row {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 24px;
+}
+
+.email-stat {
+  flex: 1;
+  background: var(--black);
+  padding: 16px 12px;
+  text-align: center;
+}
+
+.email-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--orange); line-height: 1; margin-bottom: 2px; }
+.email-stat-label { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); }
+
+.email-cta {
+  display: block;
+  background: var(--orange);
+  color: var(--white);
+  text-align: center;
+  padding: 14px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  border-radius: 2px;
+  margin-bottom: 24px;
+  text-decoration: none;
+}
+
+.email-footer {
+  background: var(--black);
+  padding: 20px 40px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.email-footer p {
+  font-size: 10px; color: var(--gray); letter-spacing: 0.1em;
+}
+
+/* ══ LAYOUT ══ */
+@media (max-width: 900px) {
+  .section { padding: 60px 32px; }
+  .page-header { padding: 48px 32px; }
+  .grid-row { gap: 32px; }
+  .caption-guide { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <p class="eyebrow">MUV — Comunicação</p>
+  <h1>Kit de Comunicação</h1>
+  <p>Templates para redes sociais, notificações, banners de arena e e-mail marketing. A marca MUV em ação.</p>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════
+     01 — FEED POSTS
+══════════════════════════════════════ -->
+<section class="section" style="background:var(--black);">
+  <p class="section-label">01 — Posts Feed Instagram (1:1)</p>
+
+  <div class="grid-row">
+
+    <!-- Post 1: Achievement -->
+    <div>
+      <p class="piece-label">Conquista Desbloqueada</p>
+      <div class="feed-post">
+        <div class="post-achievement">
+          <div class="pa-content">
+            <div class="pa-badge">
+              <div class="pa-badge-diamond">
+                <p class="pa-badge-letter">A</p>
+              </div>
+            </div>
+            <p class="pa-eyebrow">Conquista Desbloqueada</p>
+            <p class="pa-title">ACE<br>MACHINE</p>
+            <p class="pa-desc">50 aces marcados em partidas oficiais. Top 5% da comunidade MUV.</p>
+          </div>
+          <div class="pa-footer">
+            <div class="pa-stat">
+              <p class="pa-stat-num">50</p>
+              <div>
+                <p class="pa-stat-info" style="font-weight:600; color:var(--white); font-size:11px;">Aces Totais</p>
+                <p class="pa-stat-info">Beach Tennis · RJ</p>
+              </div>
+            </div>
+            <p class="pa-logo">MUV</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Post 2: Resumo do mês -->
+    <div>
+      <p class="piece-label">Resumo do Mês</p>
+      <div class="feed-post">
+        <div class="post-stats">
+          <div class="ps-header">
+            <p class="ps-eyebrow">◇ Setembro 2026 · Felipe R.</p>
+            <p class="ps-title">Seu melhor<br>mês até agora.</p>
+          </div>
+          <div class="ps-grid">
+            <div class="ps-stat-box accent-border">
+              <p class="ps-stat-num orange">847</p>
+              <p class="ps-stat-label">Pontos</p>
+            </div>
+            <div class="ps-stat-box">
+              <p class="ps-stat-num">14h</p>
+              <p class="ps-stat-label">Em Quadra</p>
+            </div>
+            <div class="ps-stat-box accent-border">
+              <p class="ps-stat-num orange">11</p>
+              <p class="ps-stat-label">Vitórias</p>
+            </div>
+            <div class="ps-stat-box">
+              <p class="ps-stat-num">#47</p>
+              <p class="ps-stat-label">Rank RJ</p>
+            </div>
+          </div>
+          <div class="ps-footer">
+            <p class="ps-date">Set 2026 · Beach Tennis</p>
+            <p class="ps-logo">MUV</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Post 3: Duelo -->
+    <div>
+      <p class="piece-label">Convite para Duelo</p>
+      <div class="feed-post">
+        <div class="post-challenge">
+          <div class="pc-header">
+            <p class="pc-eyebrow">◇ Duelo Enviado</p>
+            <p class="pc-title">VOCÊ FOI<br>DESAFIADO.</p>
+          </div>
+          <div class="pc-players">
+            <div class="pc-player challenger">
+              <div class="pc-avatar orange">JD</div>
+              <div class="pc-player-info">
+                <p class="pc-player-name">João Duarte</p>
+                <p class="pc-player-rank">#41 · Rio de Janeiro</p>
+              </div>
+              <p class="pc-player-pts orange">892</p>
+            </div>
+            <div class="pc-vs">VS</div>
+            <div class="pc-player">
+              <div class="pc-avatar">FR</div>
+              <div class="pc-player-info">
+                <p class="pc-player-name">Felipe Ramos</p>
+                <p class="pc-player-rank">#47 · Rio de Janeiro</p>
+              </div>
+              <p class="pc-player-pts">847</p>
+            </div>
+          </div>
+          <div class="pc-footer">
+            <p class="pc-arena">Arena São Conrado · 19h</p>
+            <p class="pc-logo">MUV</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════
+     02 — STORIES
+══════════════════════════════════════ -->
+<section class="section" style="background: var(--surface);">
+  <p class="section-label">02 — Stories Instagram (9:16)</p>
+
+  <div class="grid-row">
+
+    <!-- Story 1: Achievement -->
+    <div>
+      <p class="piece-label">Conquista · Story</p>
+      <div class="story">
+        <div class="story-achievement">
+          <div class="story-status-bar">
+            <div class="story-bar filled"></div>
+            <div class="story-bar filled"></div>
+            <div class="story-bar active"></div>
+            <div class="story-bar"></div>
+            <div class="story-bar"></div>
+          </div>
+          <div class="story-account">
+            <div class="story-acc-avatar">
+              <p class="story-acc-logo">MUV</p>
+            </div>
+            <div>
+              <p class="story-acc-name">MUV App</p>
+              <p class="story-acc-time">agora mesmo</p>
+            </div>
+          </div>
+          <div class="story-content">
+            <div class="story-badge">
+              <div class="story-badge-inner">
+                <p class="story-badge-letter">A</p>
+              </div>
+            </div>
+            <p class="story-eyebrow">Nova Conquista</p>
+            <p class="story-title">ACE<br>MACHINE</p>
+            <p class="story-desc">50 aces em partidas oficiais. Isso é elite.</p>
+            <div class="story-stat">
+              <p class="story-stat-num">50</p>
+              <p class="story-stat-info">Aces · Top 5%<br>da comunidade</p>
+            </div>
+          </div>
+          <div class="story-footer">
+            <p class="story-logo">MUV</p>
+            <p class="story-swipe">Move · Track · Evolve</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Story 2: Ranking -->
+    <div>
+      <p class="piece-label">Ranking · Story</p>
+      <div class="story">
+        <div class="story-ranking">
+          <div class="story-status-bar">
+            <div class="story-bar filled"></div>
+            <div class="story-bar active"></div>
+            <div class="story-bar"></div>
+            <div class="story-bar"></div>
+            <div class="story-bar"></div>
+          </div>
+          <div class="story-account" style="margin-bottom: 24px;">
+            <div class="story-acc-avatar">
+              <p class="story-acc-logo">MUV</p>
+            </div>
+            <div>
+              <p class="story-acc-name">MUV App</p>
+              <p class="story-acc-time">atualizado agora</p>
+            </div>
+          </div>
+
+          <div style="position:relative; z-index:2; flex:1; display:flex; flex-direction:column; justify-content:center;">
+            <p style="font-size:8px; letter-spacing:0.25em; text-transform:uppercase; color:var(--orange); margin-bottom:8px;">◇ Ranking Semanal</p>
+            <p style="font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--white); letter-spacing:0.03em; line-height:1; margin-bottom:16px;">Você subiu<br>2 posições.</p>
+
+            <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:20px;">
+              <div style="display:flex; align-items:center; gap:8px; padding:8px 10px; background:var(--surface-2); border-radius:4px;">
+                <p style="font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--gray); width:20px;">1</p>
+                <p style="font-size:10px; color:var(--white-60); flex:1;">Marcos R.</p>
+                <p style="font-size:10px; color:var(--gray);">1.240</p>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px; padding:8px 10px; background:var(--surface-2); border-radius:4px; opacity:0.6;">
+                <p style="font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--gray); width:20px;">46</p>
+                <p style="font-size:10px; color:var(--white-60); flex:1;">João D.</p>
+                <p style="font-size:10px; color:var(--gray);">854</p>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px; padding:8px 10px; background:var(--black); border-radius:4px; border:1px solid rgba(255,95,31,0.3);">
+                <p style="font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--orange); width:20px;">47</p>
+                <p style="font-size:10px; color:var(--orange); flex:1; font-weight:600;">Você</p>
+                <p style="font-size:10px; color:var(--orange); font-weight:600;">847</p>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px; padding:8px 10px; background:var(--surface-2); border-radius:4px; opacity:0.6;">
+                <p style="font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--gray); width:20px;">48</p>
+                <p style="font-size:10px; color:var(--white-60); flex:1;">Thiago S.</p>
+                <p style="font-size:10px; color:var(--gray);">831</p>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:8px; align-items:center;">
+              <div style="flex:1; background:var(--black); padding:10px 12px; text-align:center; border-radius:4px;">
+                <p style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--orange);">+42</p>
+                <p style="font-size:7px; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray); margin-top:2px;">Pts semana</p>
+              </div>
+              <div style="flex:1; background:var(--black); padding:10px 12px; text-align:center; border-radius:4px;">
+                <p style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--white);">↑2</p>
+                <p style="font-size:7px; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray); margin-top:2px;">Posições</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="story-footer" style="position:relative; z-index:2; margin-top:16px;">
+            <p class="story-logo">MUV</p>
+            <p class="story-swipe">Move · Track · Evolve</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Story 3: Duelo -->
+    <div>
+      <p class="piece-label">Convite de Duelo · Story</p>
+      <div class="story">
+        <div style="background:var(--black); height:100%; display:flex; flex-direction:column; padding:20px 20px 28px; position:relative; overflow:hidden;">
+          <div style="position:absolute; inset:0; background:linear-gradient(135deg, transparent 30%, rgba(255,95,31,0.08) 100%);"></div>
+          <div class="story-status-bar">
+            <div class="story-bar filled"></div>
+            <div class="story-bar filled"></div>
+            <div class="story-bar filled"></div>
+            <div class="story-bar active"></div>
+            <div class="story-bar"></div>
+          </div>
+          <div class="story-account" style="margin-bottom:20px;">
+            <div class="story-acc-avatar">
+              <p class="story-acc-logo">MUV</p>
+            </div>
+            <div>
+              <p class="story-acc-name">MUV App</p>
+              <p class="story-acc-time">duelo recebido</p>
+            </div>
+          </div>
+
+          <div style="flex:1; display:flex; flex-direction:column; justify-content:center; position:relative; z-index:2;">
+            <p style="font-size:8px; letter-spacing:0.25em; text-transform:uppercase; color:var(--orange); margin-bottom:8px;">◇ Duelo Recebido</p>
+            <p style="font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--white); letter-spacing:0.03em; line-height:1; margin-bottom:20px;">VOCÊ FOI<br>DESAFIADO.</p>
+
+            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
+              <div style="padding:12px; background:var(--surface); border-radius:6px; border:1px solid rgba(255,95,31,0.25); display:flex; align-items:center; gap:8px;">
+                <div style="width:30px;height:30px;border-radius:50%;background:rgba(255,95,31,0.15);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--orange);border:1.5px solid var(--orange);">JD</div>
+                <div style="flex:1;">
+                  <p style="font-size:11px; font-weight:600; color:var(--orange);">João Duarte</p>
+                  <p style="font-size:8px; color:var(--gray);">#41 · 892 pts</p>
+                </div>
+                <p style="font-size:8px; color:var(--orange); letter-spacing:0.1em; text-transform:uppercase;">Challenger</p>
+              </div>
+              <div style="text-align:center;">
+                <p style="font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--gray); letter-spacing:0.1em;">VS</p>
+              </div>
+              <div style="padding:12px; background:var(--surface-2); border-radius:6px; display:flex; align-items:center; gap:8px;">
+                <div style="width:30px;height:30px;border-radius:50%;background:var(--surface-3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--white-60);">FR</div>
+                <div style="flex:1;">
+                  <p style="font-size:11px; font-weight:600; color:var(--white);">Felipe Ramos</p>
+                  <p style="font-size:8px; color:var(--gray);">#47 · 847 pts</p>
+                </div>
+                <p style="font-size:8px; color:var(--gray); letter-spacing:0.1em; text-transform:uppercase;">Você</p>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:6px;">
+              <div style="flex:1; background:var(--orange); padding:10px; text-align:center; border-radius:4px;">
+                <p style="font-size:9px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--white);">Aceitar</p>
+              </div>
+              <div style="flex:1; background:var(--surface-2); padding:10px; text-align:center; border-radius:4px;">
+                <p style="font-size:9px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray);">Recusar</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="story-footer" style="position:relative; z-index:2; margin-top:16px;">
+            <p class="story-logo">MUV</p>
+            <p class="story-swipe">Move · Track · Evolve</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════
+     03 — NOTIFICAÇÕES
+══════════════════════════════════════ -->
+<section class="section" style="background:var(--black);">
+  <p class="section-label">03 — Notificações Push</p>
+
+  <div class="grid-row">
+    <div>
+      <p class="piece-label">Conquista</p>
+      <div class="notification-card">
+        <div class="notif-header">
+          <div class="notif-app-icon">
+            <p style="font-family:'Bebas Neue',sans-serif; font-size:11px; letter-spacing:0.1em; color:var(--white);">MUV</p>
+          </div>
+          <div>
+            <p class="notif-app-name">MUV</p>
+          </div>
+          <p class="notif-time">agora</p>
+        </div>
+        <div class="notif-body">
+          <p class="notif-title">Conquista Desbloqueada · Ace Machine</p>
+          <p class="notif-text">Você marcou 50 aces em partidas oficiais. Top 5% da comunidade MUV.</p>
+        </div>
+        <div class="notif-action">
+          <div class="notif-btn notif-btn-primary">Ver conquista</div>
+          <div class="notif-btn notif-btn-secondary">Compartilhar</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="piece-label">Duelo</p>
+      <div class="notification-card">
+        <div class="notif-header">
+          <div class="notif-app-icon">
+            <p style="font-family:'Bebas Neue',sans-serif; font-size:11px; letter-spacing:0.1em; color:var(--white);">MUV</p>
+          </div>
+          <div>
+            <p class="notif-app-name">MUV</p>
+          </div>
+          <p class="notif-time">2 min atrás</p>
+        </div>
+        <div class="notif-body">
+          <p class="notif-title">João Duarte te desafiou.</p>
+          <p class="notif-text">#41 com 892 pts quer jogar contra você. Duelo marcado para amanhã às 19h na Arena São Conrado.</p>
+        </div>
+        <div class="notif-action">
+          <div class="notif-btn notif-btn-primary">Aceitar duelo</div>
+          <div class="notif-btn notif-btn-secondary">Ver perfil</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="piece-label">Ranking</p>
+      <div class="notification-card">
+        <div class="notif-header">
+          <div class="notif-app-icon">
+            <p style="font-family:'Bebas Neue',sans-serif; font-size:11px; letter-spacing:0.1em; color:var(--white);">MUV</p>
+          </div>
+          <div>
+            <p class="notif-app-name">MUV</p>
+          </div>
+          <p class="notif-time">hoje</p>
+        </div>
+        <div class="notif-body">
+          <p class="notif-title">Você subiu para #45 ↑2</p>
+          <p class="notif-text">Sua vitória de hoje contra Carlos Santos valeu +42 pontos. Continue assim para chegar no top 40.</p>
+        </div>
+        <div class="notif-action">
+          <div class="notif-btn notif-btn-primary">Ver ranking</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════
+     04 — BANNER + E-MAIL
+══════════════════════════════════════ -->
+<section class="section" style="background:var(--surface);">
+  <p class="section-label">04 — Banner de Arena & E-mail</p>
+
+  <!-- Arena banner -->
+  <div style="margin-bottom: 16px;">
+    <p class="piece-label" style="text-align:left; margin-bottom:16px;">Banner de Patrocínio · Arena</p>
+    <div class="arena-banner">
+      <div class="ab-content" style="margin-right:40px;">
+        <p class="ab-eyebrow">Tecnologia oficial da arena</p>
+        <p class="ab-title">BEACH<br>CLUB SP</p>
+        <p class="ab-sub">Parceiro oficial MUV · Placar ao vivo + rankings</p>
+      </div>
+      <div style="flex:1;"></div>
+      <p class="ab-cta">muv.app/arenas</p>
+      <p class="ab-logo">MUV</p>
+    </div>
+  </div>
+
+  <!-- E-mail mockup -->
+  <div style="margin-top: 48px;">
+    <p class="piece-label" style="text-align:left; margin-bottom:16px;">Template de E-mail · Resumo Semanal</p>
+    <div class="email-mockup">
+      <div class="email-header">
+        <p class="email-logo">M<span>U</span>V</p>
+        <p class="email-tagline-em">Move · Track · Evolve</p>
+      </div>
+      <div class="email-body">
+        <p class="email-eyebrow">Sua semana em quadra</p>
+        <p class="email-title">Felipe, você<br>jogou 3 vezes.</p>
+        <p class="email-text">Esta semana você somou 42 pontos no ranking, marcou 8 aces e ficou 2h14 em quadra. Você subiu 2 posições — agora está no #47.</p>
+        <div class="email-stat-row">
+          <div class="email-stat">
+            <p class="email-stat-num">+42</p>
+            <p class="email-stat-label">Pts Rank</p>
+          </div>
+          <div class="email-stat">
+            <p class="email-stat-num">8</p>
+            <p class="email-stat-label">Aces</p>
+          </div>
+          <div class="email-stat">
+            <p class="email-stat-num">2h14</p>
+            <p class="email-stat-label">Quadra</p>
+          </div>
+          <div class="email-stat" style="border-left: 2px solid var(--orange);">
+            <p class="email-stat-num" style="color:var(--orange);">#45</p>
+            <p class="email-stat-label">Ranking RJ</p>
+          </div>
+        </div>
+        <a class="email-cta">Ver minha semana completa</a>
+        <p style="font-size:12px; font-weight:300; color:var(--white-60); line-height:1.7;">Você está a 6 posições do top 40. Se manter o ritmo desta semana, você chega lá em menos de um mês.</p>
+      </div>
+      <div class="email-footer">
+        <p>MUV Sports Technology · Rio de Janeiro</p>
+        <p style="margin-top:4px;">Descadastrar · Configurações de notificação</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════
+     05 — GUIA DE LEGENDA
+══════════════════════════════════════ -->
+<section class="section" style="background:var(--black);">
+  <p class="section-label">05 — Guia de Legenda para Posts</p>
+
+  <div class="caption-guide">
+    <div class="caption-card">
+      <p class="caption-type">Post de Conquista</p>
+      <p class="caption-text">50 aces. Isso não é sorte.<br><br>Cada quadra, cada jogo, cada ponto te trouxe até aqui. A MUV só registrou o que você construiu.<br><br>A conquista é sua.</p>
+      <p class="caption-hashtags">#MUV #BeachTennis #AceMachine #MUVPlayer #MoveTrackEvolve</p>
+    </div>
+    <div class="caption-card">
+      <p class="caption-type">Post de Resumo Mensal</p>
+      <p class="caption-text">847 pontos. 14h em quadra. 11 vitórias.<br><br>Setembro foi só o começo. O que outubro tem a dizer?</p>
+      <p class="caption-hashtags">#MUV #MUVStats #BeachTennis #Move #MoveTrackEvolve</p>
+    </div>
+    <div class="caption-card">
+      <p class="caption-type">Post de Duelo</p>
+      <p class="caption-text">João Duarte jogou #41. Eu jogava #47.<br><br>Joguei #45 depois.<br><br>Os números dizem o resto.</p>
+      <p class="caption-hashtags">#MUV #Duelo #MUVDuel #BeachTennis #MoveTrackEvolve</p>
+    </div>
+    <div class="caption-card">
+      <p class="caption-type">Post de Arena Parceira</p>
+      <p class="caption-text">Toda partida aqui conta. Placar ao vivo, dados em tempo real, ranking atualizado automaticamente.<br><br>Bem-vindo ao futuro do beach tennis.</p>
+      <p class="caption-hashtags">#MUVArena #BeachTennis #Padel #MUV #MoveTrackEvolve</p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
